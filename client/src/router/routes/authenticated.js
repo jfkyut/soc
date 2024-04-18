@@ -36,7 +36,7 @@ const authenticatedRoutes = [
   },
   {
     path: '/messages/new',
-    name: 'messages/new',
+    name: 'new chat',
     component: () => import('@/views/people/PeopleView.vue'),
     meta: {
       layout: AuthenticatedLayout,

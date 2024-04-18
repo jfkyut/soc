@@ -7,8 +7,17 @@ import ExtraButton from '@/components/buttons/ExtraButton.vue';
 import { storeToRefs } from 'pinia';
 import ThemeToggler from '@/layouts/auth/partials/ThemeToggler.vue';
 import MessageLinks from '@/layouts/auth/partials/MessagesLinks.vue';
+import { useRoute } from 'vue-router';
+import { useAuthPageTitleStore } from '@/stores/authPageTitle';
+import { computed, onMounted, watch } from 'vue';
 
 const appName = import.meta.env.VITE_APP_NAME;
+
+const route = useRoute();
+
+const currentRouteTitle = computed(() => route.meta.title);
+
+const { routeTitle } = storeToRefs(useAuthPageTitleStore());
 
 const { isShow } = storeToRefs(useSidebarStore())
 const { setHide, setShow } = useSidebarStore();
@@ -23,19 +32,32 @@ const closeOnSmallScreen = () => {
   if (window.innerWidth <= 768) setHide()
 }
 
+onMounted(() => {
+  routeTitle.value = currentRouteTitle.value
+})
+
+watch(currentRouteTitle, (currentRouteTitle) => {
+  routeTitle.value = currentRouteTitle;
+})
+
 </script>
 
 <template>
   <div class="relative">
     <div
       :class="isShow ? 'md:ml-[30rem]' : 'md:ml-0'"
-      class="bg-white dark:bg-gray-800 pt-4 p-2 fixed top-0 right-0 left-0 flex justify-between border-b dark:border-gray-700 shadow transition-transform z-10">
+      class="bg-white dark:bg-gray-800 pt-4 p-2 fixed top-0 right-0 left-0 flex justify-between items-center border-b dark:border-gray-700 shadow transition-transform z-10">
       <ExtraButton @click="toggleSidebar">
         <span class="sr-only">Open sidebar</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
         </svg>
       </ExtraButton>
+
+      <div class="dark:text-gray-300 absolute left-1/2 -translate-x-1/2">
+        {{ routeTitle  }}
+      </div>
+
       <UserDropdown />
     </div>
     
@@ -75,6 +97,7 @@ const closeOnSmallScreen = () => {
     <div
       :class="isShow ? 'md:ml-[30rem]' : 'md:ml-0'"
       class="p-4 bg-gray-50 dark:bg-gray-900 min-h-screen dark:text-gray-400 transition-transform pt-20">
+
       <div
         :class="isShow ? 'opacity-100' : 'opacity-0 invisible'" 
         @click.self="setHide()"
