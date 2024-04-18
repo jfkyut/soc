@@ -24,6 +24,26 @@ const authenticatedRoutes = [
     },
     beforeEnter: [authenticated, verified]
   },
+  {
+    path: '/people',
+    name: 'people',
+    component: () => import('@/views/people/PeopleView.vue'),
+    meta: {
+      layout: AuthenticatedLayout,
+      title: 'People'
+    },
+    beforeEnter: [authenticated, verified]
+  },
+  {
+    path: '/messages/new',
+    name: 'messages/new',
+    component: () => import('@/views/people/PeopleView.vue'),
+    meta: {
+      layout: AuthenticatedLayout,
+      title: 'New chat'
+    },
+    beforeEnter: [authenticated, verified]
+  },
 ];
 
 export default authenticatedRoutes;

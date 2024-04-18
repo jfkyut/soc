@@ -1,13 +1,18 @@
 <script setup>
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-import { useProfileStore } from '@/stores/profile';
+const router = useRouter();
 
-const { user } = useProfileStore();
+onMounted(() => {
+  router.push('/messages/new');
+})
+
 
 </script>
 
 <template>
   <div>
-    Welcome home {{ user.name }}
+    home
   </div>
 </template>

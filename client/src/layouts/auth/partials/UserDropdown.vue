@@ -1,8 +1,8 @@
 <script setup>
 
-import DropdownButton from '@/components/dropdowns/DropdownButton.vue';
-import DropdownMenu from '@/components/dropdowns/DropdownMenu.vue';
-import DropdownLink from '@/components/dropdowns/DropdownLink.vue'
+import DropdownButton from '@/components/dropdowns/dropdown/DropdownButton.vue';
+import DropdownMenu from '@/components/dropdowns/dropdown/DropdownMenu.vue';
+import DropdownLink from '@/components/dropdowns/dropdown/DropdownLink.vue'
 import { getCurrentInstance, ref, watch } from 'vue';
 import ExtraButton from '@/components/buttons/ExtraButton.vue';
 import { useRouter } from 'vue-router';

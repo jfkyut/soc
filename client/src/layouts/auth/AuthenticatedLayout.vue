@@ -1,25 +1,17 @@
 <script setup>
 
 import { RouterLink } from 'vue-router';
-import { useThemeStore } from '@/stores/theme';
 import { useSidebarStore } from '@/stores/sidebar';
 import UserDropdown from '@/layouts/auth/partials/UserDropdown.vue';
 import ExtraButton from '@/components/buttons/ExtraButton.vue';
 import { storeToRefs } from 'pinia';
+import ThemeToggler from '@/layouts/auth/partials/ThemeToggler.vue';
+import MessageLinks from '@/layouts/auth/partials/MessagesLinks.vue';
 
 const appName = import.meta.env.VITE_APP_NAME;
 
-const { theme } = storeToRefs(useThemeStore());
-const { setToDark, setToLight } = useThemeStore();
-
 const { isShow } = storeToRefs(useSidebarStore())
 const { setHide, setShow } = useSidebarStore();
-
-const toggleTheme = (e) => {
-  e.target.checked
-    ? setToDark()
-    : setToLight()
-}
 
 const toggleSidebar = () => {
   isShow.value === true
@@ -36,7 +28,7 @@ const closeOnSmallScreen = () => {
 <template>
   <div class="relative">
     <div
-      :class="isShow ? 'md:ml-64' : 'md:ml-0'"
+      :class="isShow ? 'md:ml-[30rem]' : 'md:ml-0'"
       class="bg-white dark:bg-gray-800 pt-4 p-2 fixed top-0 right-0 left-0 flex justify-between border-b dark:border-gray-700 shadow transition-transform z-10">
       <ExtraButton @click="toggleSidebar">
         <span class="sr-only">Open sidebar</span>
@@ -50,7 +42,7 @@ const closeOnSmallScreen = () => {
     <aside 
       id="default-sidebar" 
       :class="isShow ? 'translate-x-0' : '-translate-x-full'"
-      class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform bg-gray-800 border-r border-gray-700" aria-label="Sidebar">
+      class="fixed top-0 left-0 z-40 w-64 md:w-[30rem] h-screen transition-transform bg-gray-800 border-r border-gray-700" aria-label="Sidebar">
       <div class="px-3 py-4 pt-5">
         <h2 class="text-white font-black uppercase md:text-center">{{ appName }}</h2>
         <button @click="setHide()" type="button" class="md:hidden text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" >
@@ -63,38 +55,25 @@ const closeOnSmallScreen = () => {
       <div class="h-full px-3 py-4 overflow-y-auto">
         <ul class="space-y-2 font-medium">
           <li>
-            <RouterLink to="/home" @click="closeOnSmallScreen" active-class="bg-gray-700" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+            <RouterLink to="/people" @click="closeOnSmallScreen" active-class="bg-gray-700" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
               <span class="w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white">
-                <i class="fa fa-home"></i>
+                <i class="fa fa-users"></i>
               </span>
-              <span class="ms-3">Home</span>
+              <span class="ms-3">People</span>
             </RouterLink>
           </li>
           <li>
-            <div class="flex items-center justify-between p-2 rounded-lg text-white hover:bg-gray-700 group">
-              <div>
-                <span class="w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white">
-                    <i class="fa fa-moon"></i>
-                  </span>
-                <span class="ms-3">Dark mode</span>
-              </div>
-
-              <label class="inline-flex items-center cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  class="sr-only peer" 
-                  :checked="theme === 'dark' ? true : false"
-                  @change="toggleTheme">
-                <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-              </label>
-            </div>
+            <MessageLinks @on-access-link="closeOnSmallScreen" />
+          </li>
+          <li>
+            <ThemeToggler />
           </li>
         </ul>
       </div>
     </aside>
     
     <div
-      :class="isShow ? 'md:ml-64' : 'md:ml-0'"
+      :class="isShow ? 'md:ml-[30rem]' : 'md:ml-0'"
       class="p-4 bg-gray-50 dark:bg-gray-900 min-h-screen dark:text-gray-400 transition-transform pt-20">
       <div
         :class="isShow ? 'opacity-100' : 'opacity-0 invisible'" 
