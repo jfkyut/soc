@@ -5,7 +5,7 @@ import { useSidebarStore } from '@/stores/sidebar';
 import { useUserStore } from '@/stores/users';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
-import UserCard from './partials/UserCard.vue';
+import UserCard from '@/widgets/people/UserCard.vue';
 
 const { users } = storeToRefs(useUserStore());
 const { isShow } = storeToRefs(useSidebarStore());

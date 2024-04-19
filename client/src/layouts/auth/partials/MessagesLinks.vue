@@ -1,8 +1,8 @@
 <script setup>
 
 import { ref, watch } from 'vue';
-import NavDropdownTrigger from '@/components/dropdowns/navDropdown/NavDropdownTrigger.vue';
-import NavDropdownLink from '@/components/dropdowns/navDropdown/NavDropdownLink.vue';
+import NavDropdownTrigger from '@/widgets/nav/NavDropdownTrigger.vue';
+import NavDropdownLink from '@/widgets/nav/NavDropdownLink.vue';
 
 defineProps({ chats: Object })
 
