@@ -13,9 +13,11 @@ const { isShow } = storeToRefs(useSidebarStore());
 const { getUsers } = useHttpUser();
 
 onMounted( async () => {
-  const { data } = await getUsers();
+  if (!users.value) {
+    const { data } = await getUsers();
 
-  users.value = data;
+    users.value = data;
+  }
 })
 
 </script>
