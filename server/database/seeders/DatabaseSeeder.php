@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
         $messageTypes = [
             'text',
             'video',
-            'photo'
+            'photo',
+            'other'
         ];
 
         foreach ($messageTypes as $type) {
