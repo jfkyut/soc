@@ -17,11 +17,16 @@ class Message extends Model
 
     public function sender()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function chat()
     {
         return $this->belongsTo(Chat::class);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(MessageType::class);
     }
 }

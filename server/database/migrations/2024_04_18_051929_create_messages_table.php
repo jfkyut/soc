@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->longText('content');
-            $table->string('type');
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('chat_id')->constrained('chats')->cascadeOnDelete();
+            $table->foreignId('type_id')->constrained('message_types')->cascadeOnDelete();
             $table->boolean('read_status')->default(false);
             $table->timestamps();
         });
