@@ -64,7 +64,7 @@ const sendMessage = async () => {
 
   <div>
     <GenericModal 
-      :title="`Send a message to ${user.name}`"
+      :title="`Send a message to ${targetUser.name}`"
       :show="isMessageModalShow"
       :isLoading="isLoading"
       confirmButtonText="Send"

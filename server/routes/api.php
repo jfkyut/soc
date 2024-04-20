@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Chat\ChatController;
+use App\Http\Controllers\Chat\MessageController;
 use App\Http\Controllers\Profile\PasswordController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Users\UserController;
@@ -17,4 +18,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/chat', [ChatController::class,'index'])->name('chat.index');
     Route::post('/chat', [ChatController::class,'store'])->name('chat.store');
     Route::get('/chat/{chat}', [ChatController::class,'show'])->name('chat.show');
+
+    Route::post('/message', [MessageController::class,'store'])->name('message.store');
 });

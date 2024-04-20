@@ -23,9 +23,16 @@ export const useHttpMessage = () => {
     });
   }
 
+  const sendTextMessageRequest = (formData) => {
+    return sendApiRequest( async () => {
+      return await axios.post('/api/message', formData); 
+    })
+  }
+
   return {
     getAllChatRequest,
     sendNewTextMessageRequest,
-    getChatMessagesRequest
+    getChatMessagesRequest,
+    sendTextMessageRequest
   }
 }

@@ -42,7 +42,7 @@ const messages = ref(null);
     </div>
     
     <div class="w-full absolute bottom-4">
-      <ChatForm />
+      <ChatForm :chat-id="currentChatId" />
     </div>
   </div>
 </template>
