@@ -14,5 +14,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/users', [UserController::class,'index'])->name('user.index');
 
+    Route::get('/chat', [ChatController::class,'index'])->name('chat.index');
     Route::post('/chat', [ChatController::class,'store'])->name('chat.store');
+    Route::get('/chat/{chat}', [ChatController::class,'show'])->name('chat.show');
 });
