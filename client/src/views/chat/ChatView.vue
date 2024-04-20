@@ -2,53 +2,33 @@
 
 import ChatForm from '@/widgets/chat/ChatForm.vue';
 import ChatBubble from '@/widgets/chat/ChatBubble.vue';
+import { useRoute } from 'vue-router';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useHttpMessage } from '@/http/message';
 
-const messages = [
-  {
-    content: "yo wassup",
-    user_id: "9bd8ae12-24c2-4761-8138-7b65ca456d7b"
-  },
-  {
-    content: "yo wassup",
-    user_id: "9bd7a4fe7976a385"
-  },
-  {
-    content: "yo wassup",
-    user_id: "9bd8ae12-24c2-4761-8138-7b65ca456d7b"
-  },
-  {
-    content: "yo wassup",
-    user_id: "9bd7ab71--84fe7976a385"
-  },
-  {
-    content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt corrupti, ipsum, iusto quae voluptate atque natus laboriosam temporibus sequi veniam, quis praesentium aspernatur exercitationem ipsam adipisci labore totam! Facere, maiores.",
-    user_id: "9bd8ae12-24c2-4761-8138-7b65ca456d7b"
-  },
-  {
-    content: "yo wassup",
-    user_id: "9bd8ae12-24c2-4761-8138-7b65ca456d7b"
-  },
-  {
-    content: "yo wassup",
-    user_id: "9bd7ab71--84fe7976a385"
-  },
-  {
-    content: "yo wassup",
-    user_id: "9bd7ab71--84fe7976a385"
-  },
-  {
-    content: "yo wassup",
-    user_id: "9bd7ab71--84fe7976a385"
-  },
-  {
-    content: "yo wassup",
-    user_id: "9bd7ab71--84fe7976a385"
-  },
-  {
-    content: "yo wassup",
-    user_id: "9bd7ab71--84fe7976a385"
-  },
-]
+const { getChatMessagesRequest } = useHttpMessage();
+
+const route = useRoute();
+
+const currentChatId = computed(() => route.params.id);
+
+const getMessages = async () => {
+  const { data } = await getChatMessagesRequest(currentChatId.value);
+
+  messages.value = data;
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    getMessages();
+  }, 1000)
+})
+
+watch(currentChatId, (currentChatId) => {
+  getMessages();
+})
+
+const messages = ref(null);
 
 </script>
 

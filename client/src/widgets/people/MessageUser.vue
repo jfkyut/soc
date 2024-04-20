@@ -7,12 +7,15 @@ import { ref, getCurrentInstance } from 'vue';
 import { useHttpMessage } from '@/http/message';
 import { useProfileStore } from '@/stores/profile';
 import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
 
 const { user } = storeToRefs(useProfileStore())
 
+const router = useRouter();
+
 const { targetUser } = defineProps({ targetUser: Object })
 
-const { sendNewTextMessage } = useHttpMessage();
+const { sendNewTextMessageRequest } = useHttpMessage();
 
 const isLoading = ref(false);
 const isMessageModalShow = ref(false);
@@ -44,13 +47,12 @@ const form = ref({
 });
 
 const sendMessage = async () => {
-  const { data } = await sendNewTextMessage(form.value);
+  const { data } = await sendNewTextMessageRequest(form.value);
 
   if (data) {
     closeModal();
+    router.push(`/chat/${data.chat_id}`);
   }
-
-  console.log(data);
 }
 
 </script>

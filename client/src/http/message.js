@@ -1,17 +1,31 @@
 import { useApiUtilities } from "@/utilities/api"
 import axios from "axios";
 
-const { sendApiRequest, getCsrfToken } = useApiUtilities();
+const { sendApiRequest } = useApiUtilities();
 
 export const useHttpMessage = () => {
   
-  const sendNewTextMessage = (formData) => {
+  const getAllChatRequest = () => {
+    return sendApiRequest( async () => {
+      return await axios.get('/api/chat');
+    })
+  }
+
+  const sendNewTextMessageRequest = (formData) => {
     return sendApiRequest( async () => {
       return await axios.post('api/chat', formData);
     });
   }
 
+  const getChatMessagesRequest = (chatId) => {
+    return sendApiRequest( async () => {
+      return await axios.get(`api/chat/${chatId}`);
+    });
+  }
+
   return {
-    sendNewTextMessage
+    getAllChatRequest,
+    sendNewTextMessageRequest,
+    getChatMessagesRequest
   }
 }

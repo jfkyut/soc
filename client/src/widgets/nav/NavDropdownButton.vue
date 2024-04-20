@@ -1,6 +1,12 @@
 <script setup>
 
-defineProps({ class: String })
+defineProps({
+  class: String,
+  disabled: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const emit = defineEmits(['click', 'mouseover', 'mouseout'])
 
@@ -9,6 +15,7 @@ const emit = defineEmits(['click', 'mouseover', 'mouseout'])
 <template>
   <li class="relative flex">
     <button 
+      :disabled="disabled"
       @click="emit('click')"
       @mouseover="emit('mouseover')"
       @mouseout="emit('mouseout')"
