@@ -10,8 +10,11 @@ import MessageLinks from '@/layouts/auth/partials/MessagesLinks.vue';
 import { useRoute } from 'vue-router';
 import { useAuthPageTitleStore } from '@/stores/authPageTitle';
 import { computed, onMounted, watch } from 'vue';
+import { useHttpAuth } from '@/http/auth';
 
 const appName = import.meta.env.VITE_APP_NAME;
+
+const { sanctumTokenRequest } = useHttpAuth();
 
 const route = useRoute();
 
@@ -32,8 +35,18 @@ const closeOnSmallScreen = () => {
   if (window.innerWidth <= 768) setHide()
 }
 
+const setToken = async () => {
+  if (!localStorage.getItem('auth.token')) {
+    const { data } = await sanctumTokenRequest();
+
+    localStorage.setItem('auth.token', data.token);
+  }
+}
+
 onMounted(() => {
-  routeTitle.value = currentRouteTitle.value
+  routeTitle.value = currentRouteTitle.value;
+
+  setToken();
 })
 
 watch(currentRouteTitle, (currentRouteTitle) => {

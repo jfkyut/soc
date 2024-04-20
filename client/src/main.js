@@ -1,5 +1,6 @@
 import './assets/main.css'
 import './config/http';
+import './config/echo';
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

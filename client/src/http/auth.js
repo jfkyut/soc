@@ -57,12 +57,20 @@ export const useHttpAuth = () => {
     });
   }
 
+  const sanctumTokenRequest = () => {
+    return sendApiRequest( async () => {
+      await getCsrfToken();
+      return await axios.post('/sanctum/auth/token');
+    })
+  }
+
   return {
     loginRequest,
     registerRequest,
     logoutRequest,
     newPasswordRequest,
     resetPasswordRequest,
-    emailVerificationRequest
+    emailVerificationRequest,
+    sanctumTokenRequest
   }
 }
