@@ -14,9 +14,5 @@ window.Echo = new Echo({
   forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
   enabledTransports: ['ws', 'wss'],
   authEndpoint: import.meta.env.VITE_BACKEND_URL + '/broadcasting/auth',
-  auth: {
-    headers: {
-      Authorization: `Bearer ${authToken}`
-    },
-  },
+  bearerToken: authToken,
 });

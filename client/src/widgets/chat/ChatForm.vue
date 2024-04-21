@@ -16,9 +16,7 @@ const sendMessage = async () => {
 
   form.value.chat_id = chatId
 
-  const { data } = sendTextMessageRequest(form.value);
-
-  console.log(data);
+  const { data } = await sendTextMessageRequest(form.value);
 }
 
 </script>

@@ -12,6 +12,8 @@ const route = useRoute();
 
 const currentChatId = computed(() => route.params.id);
 
+const chatChannel = Echo.private(`chat.${currentChatId.value}`);
+
 const getMessages = async () => {
   const { data } = await getChatMessagesRequest(currentChatId.value);
 
@@ -19,13 +21,19 @@ const getMessages = async () => {
 }
 
 onMounted(() => {
-  setTimeout(() => {
-    getMessages();
-  }, 1000)
+  getMessages();
+
+  console.log(chatChannel.listen('message-sent', (e) => {
+    console.log(e);
+  }));
 })
 
-watch(currentChatId, (currentChatId) => {
+watch(currentChatId, () => {
   getMessages();
+
+  chatChannel.listen('message-sent', (e) => {
+    console.log('test' + e);
+  })
 })
 
 const messages = ref(null);

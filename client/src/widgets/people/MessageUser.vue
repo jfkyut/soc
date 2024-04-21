@@ -49,6 +49,8 @@ const form = ref({
 const sendMessage = async () => {
   const { data } = await sendNewTextMessageRequest(form.value);
 
+  console.log(data);
+
   if (data) {
     closeModal();
     router.push(`/chat/${data.chat_id}`);
