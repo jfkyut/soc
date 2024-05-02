@@ -43,11 +43,21 @@ class ChatController extends Controller
         $message->timestamp = Date::now()->format('H:i');
         $message->save();
 
-        return $message->with('chat')
-                        ->with('type')
-                        ->with('sender')
-                        ->where('id', $message->id)
-                        ->first();
+        return response([
+            'chat' => $chat->where('id', $chat->id)
+                            ->with('participants')
+                            ->with('messages', function($query) {
+                                $query->latest()->limit(1);
+                            })
+                            ->orderByDesc('updated_at')
+                            ->first(),
+
+            'message' => $message->with('chat')
+                                ->with('type')
+                                ->with('sender')
+                                ->where('id', $message->id)
+                                ->first()
+        ]);
     }
 
     public function show(Chat $chat)

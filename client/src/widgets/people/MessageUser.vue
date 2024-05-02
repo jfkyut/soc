@@ -8,8 +8,10 @@ import { useHttpMessage } from '@/http/message';
 import { useProfileStore } from '@/stores/profile';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
+import { useChatStore } from '@/stores/chat';
 
 const { user } = storeToRefs(useProfileStore())
+const { chats } = storeToRefs(useChatStore());
 
 const router = useRouter();
 
@@ -49,11 +51,12 @@ const form = ref({
 const sendMessage = async () => {
   const { data } = await sendNewTextMessageRequest(form.value);
 
-  console.log(data);
-
   if (data) {
     closeModal();
-    router.push(`/chat/${data.chat_id}`);
+
+    chats.value.unshift(data.chat);
+
+    router.push(`/chat/${data.message.chat_id}`);
   }
 }
 
