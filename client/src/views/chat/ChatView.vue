@@ -10,9 +10,9 @@ const { getChatMessagesRequest } = useHttpMessage();
 
 const route = useRoute();
 
-const currentChatId = computed(() => route.params.id);
+const chatContainerRef = ref(null);
 
-const chatChannel = Echo.private(`chat.${currentChatId.value}`);
+const currentChatId = computed(() => route.params.id);
 
 const getMessages = async () => {
   const { data } = await getChatMessagesRequest(currentChatId.value);
@@ -20,30 +20,47 @@ const getMessages = async () => {
   messages.value = data;
 }
 
-onMounted(() => {
-  getMessages();
+const setChatContainerHeight = () => {
+  setTimeout(() => {
+    if (chatContainerRef.value) {
+      chatContainerRef.value.scrollTop = chatContainerRef.value.scrollHeight
+    }
+  }, 200)
+}
 
-  console.log(chatChannel.listen('message-sent', (e) => {
-    console.log(e);
-  }));
+onMounted( async () => {
+  await getMessages()
+
+  setChatContainerHeight();
+
+  Echo.private(`chat.${currentChatId.value}`).listen('.message-sent', (e) => {
+    messages.value.push(e.message)
+  })
 })
 
-watch(currentChatId, () => {
-  getMessages();
+watch(currentChatId, async () => {
+  await getMessages()
 
-  chatChannel.listen('message-sent', (e) => {
-    console.log('test' + e);
+  setChatContainerHeight()
+
+  Echo.private(`chat.${currentChatId.value}`).listen('.message-sent', (e) => {
+    messages.value.push(e.message)
   })
 })
 
 const messages = ref(null);
+
+watch(messages, () => {
+  console.log('there is a change');
+  setChatContainerHeight();
+}, { deep: true })
 
 </script>
 
 <template>
   <div class="relative min-h-[89vh]">
 
-    <div class="h-[80vh] py-2 overflow-y-auto">
+    <div class="h-[80vh] py-2 overflow-y-auto scroll-smooth" ref="chatContainerRef">
       <div class="p-1 max-w-7xl mx-auto" v-for="(message, index) in messages" :key="index">
         <ChatBubble :message="message" />
       </div>
