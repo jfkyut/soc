@@ -10,7 +10,7 @@ import { storeToRefs } from 'pinia';
 
 const { activeChatId } = storeToRefs(useChatStore())
 
-const { addNewMessage } = useChatStore();
+const { updateExistingChat } = useChatStore();
 
 const { getChatMessagesRequest } = useHttpMessage();
 
@@ -45,7 +45,6 @@ onMounted( async () => {
   Echo.private(`chat.${currentChatId.value}`).listen('.message-sent', (e) => {
     messages.value.push(e.message)
 
-    addNewMessage(e.message)
   })
 })
 
@@ -59,8 +58,6 @@ watch(currentChatId, async () => {
 
   Echo.private(`chat.${currentChatId.value}`).listen('.message-sent', (e) => {
     messages.value.push(e.message)
-
-    addNewMessage(e.message)
   })
 })
 

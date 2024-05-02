@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Chat;
 
+use App\Events\Chat\RenewChat;
+use App\Models\Chat;
 use App\Models\Message;
 use App\Events\Chat\MessageSent;
 use App\Http\Controllers\Controller;
@@ -21,6 +23,11 @@ class MessageController extends Controller
 
         event(new MessageSent($message));
 
-        return response()->noContent();
+        return Chat::where('id', $message->chat_id)
+                    ->with('messages', function ($query) {
+                        $query->latest()->limit(1);
+                    })
+                    ->with('participants')
+                    ->first();
     }
 }

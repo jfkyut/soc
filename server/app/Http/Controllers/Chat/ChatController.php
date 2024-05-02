@@ -17,15 +17,11 @@ class ChatController extends Controller
     {
         return Auth::user()
                     ->chats()
-                    ->with('messages')
-                    ->with('participants')
-                    ->orderByDesc(function ($query) {
-                        $query->select('created_at')
-                            ->from('messages')
-                            ->whereColumn('chat_id', 'chats.id')
-                            ->orderByDesc('timestamp')
-                            ->limit(1);
+                    ->with('messages', function ($query) {
+                        $query->latest()->limit(1);
                     })
+                    ->with('participants')
+                    ->orderByRaw('(SELECT MAX(created_at) FROM messages WHERE messages.chat_id = chats.id) DESC')
                     ->get();
     }
 

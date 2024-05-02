@@ -56,12 +56,12 @@ onMounted( async () => {
       v-else
       v-for="(chat, index) in chats" 
       :key="index"
-      :to="`/chat/${chat.id}`" 
+      :to="`/chat/${chat?.id}`" 
       @click="emit('onAccessLink')"
       :chat="chat"
       :title=" 
-        chat.name ||
-        chat.participants?.filter((participant) => participant.id !== user.id) 
+        chat?.name ||
+        chat?.participants?.filter((participant) => participant.id !== user.id) 
                           .map((participant) => participant.name)
                           .join(', ')
       ">
@@ -69,14 +69,14 @@ onMounted( async () => {
       <div class="truncate">
         <strong class="p-2">
           {{ 
-            chat.name ||
-            chat.participants.filter((participant) => participant.id !== user.id) 
+            chat?.name ||
+            chat?.participants.filter((participant) => participant.id !== user.id) 
                               .map((participant) => participant.name)
                               .join(', ')
           }}
         </strong>
         <p class="p-2">
-          <span>{{ chat.messages[0].user_id === user.id ? 'You: ' : '' }}</span> {{ chat.messages[0].content }}
+          <span>{{ chat?.messages[0].user_id === user.id ? 'You: ' : '' }}</span> {{ chat?.messages[0].content }}
         </p>
       </div>
 

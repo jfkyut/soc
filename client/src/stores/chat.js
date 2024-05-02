@@ -7,24 +7,15 @@ export const useChatStore = defineStore('chat', () => {
 
   const activeChatId = ref();
 
-  const addNewMessage = (message) => {
-    chats.value
-      .filter((chat) => chat.id === activeChatId.value)
-      .map((chat) => {
-        chat.messages[0] = message
-      })
-  }
+  const updateCurrentChat = (newChat) => {
+    chats.value = chats.value.filter((chat) => chat.id !== newChat.id);
 
-  const updateExistingChat = (newChat) => {
-    chats.value = chats.value
-                    .filter((chat) => chat.id === newChat.id)
-                    .unshift(newChat);
+    chats.value.unshift(newChat);
   }
 
   return { 
     chats,
     activeChatId,
-    addNewMessage,
-    updateExistingChat
+    updateCurrentChat
   }
 });

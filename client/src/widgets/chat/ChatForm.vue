@@ -1,10 +1,14 @@
 <script setup>
 import { useHttpMessage } from '@/http/message';
+import { useChatStore } from '@/stores/chat';
+import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 
-const { chatId } = defineProps({ chatId: String });
+const { activeChatId } = storeToRefs(useChatStore());
 
 const { sendTextMessageRequest } = useHttpMessage();
+
+const { updateCurrentChat } = useChatStore();
 
 const messageTextAreaRef = ref(null);
 
@@ -23,9 +27,11 @@ const handleKeyDown = (e) => {
 
 const sendMessage = async () => {
 
-  form.value.chat_id = chatId
+  form.value.chat_id = activeChatId.value
 
-  await sendTextMessageRequest(form.value);
+  const { data } = await sendTextMessageRequest(form.value);
+
+  updateCurrentChat(data);
 
   form.value.content = null
 
