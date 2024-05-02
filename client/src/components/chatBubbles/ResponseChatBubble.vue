@@ -14,7 +14,7 @@ defineProps({ message: Object })
           <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
       </div>
       <div class="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-          <p class="text-sm font-normal text-gray-900 dark:text-white">{{ message?.content }}</p>
+          <p class="text-sm font-normal text-gray-900 dark:text-white whitespace-pre">{{ message?.content }}</p>
       </div>
       <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
         {{ message?.read_status !== 0 ? 'Seen' : 'Sent' }}
