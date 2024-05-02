@@ -61,7 +61,7 @@ onMounted( async () => {
       :chat="chat"
       :title=" 
         chat.name ||
-        chat.participants.filter((participant) => participant.id !== user.id) 
+        chat.participants?.filter((participant) => participant.id !== user.id) 
                           .map((participant) => participant.name)
                           .join(', ')
       ">

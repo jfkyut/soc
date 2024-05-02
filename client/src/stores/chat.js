@@ -15,9 +15,16 @@ export const useChatStore = defineStore('chat', () => {
       })
   }
 
+  const updateExistingChat = (newChat) => {
+    chats.value = chats.value
+                    .filter((chat) => chat.id === newChat.id)
+                    .unshift(newChat);
+  }
+
   return { 
     chats,
     activeChatId,
-    addNewMessage
+    addNewMessage,
+    updateExistingChat
   }
 });

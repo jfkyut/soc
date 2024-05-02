@@ -12,6 +12,7 @@ import { useChatStore } from '@/stores/chat';
 
 const { user } = storeToRefs(useProfileStore())
 const { chats } = storeToRefs(useChatStore());
+const { updateExistingChat } = useChatStore();
 
 const router = useRouter();
 
@@ -54,7 +55,11 @@ const sendMessage = async () => {
   if (data) {
     closeModal();
 
-    chats.value.unshift(data.chat);
+    if (chats.value.find((chat) => chat?.id === data.chat?.id)) {
+      updateExistingChat(data.chat)
+    } else {
+      chats.value.unshift(data.chat)
+    }
 
     router.push(`/chat/${data.message.chat_id}`);
   }
