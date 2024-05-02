@@ -28,14 +28,16 @@ const sendMessage = async () => {
   await sendTextMessageRequest(form.value);
 
   form.value.content = null
+
+  messageTextAreaRef.value.style.height = '42px';
 }
 
 watch(form.value, (form) => {
-  if (form.content === '' || !form.content) {
+  messageTextAreaRef.value.style.height = messageTextAreaRef.value.scrollHeight + 'px';
+
+  if (form.content === '' || form.content === null) {
     messageTextAreaRef.value.style.height = '42px';
   }
-
-  messageTextAreaRef.value.style.height = messageTextAreaRef.value.scrollHeight + 'px';
 })
 
 </script>
