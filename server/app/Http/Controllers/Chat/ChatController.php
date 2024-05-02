@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Chat;
 
 use App\Models\Chat;
 use App\Models\Message;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
 use App\Http\Requests\Chat\NewMessageRequest;
 
 class ChatController extends Controller
@@ -61,7 +59,12 @@ class ChatController extends Controller
         $message->save();
 
         return response([
-            'chat' => $chat->load('participants', 'messages'),
+            'chat' => $chat->where('id', $chat->id)
+                            ->with('messages', function ($query) {
+                                $query->latest()->limit(1);
+                            })
+                            ->with('participants')
+                            ->first(),
             'message' => $message->load('chat', 'type', 'sender')
         ]);
     }
