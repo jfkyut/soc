@@ -3,7 +3,7 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 window.Pusher = Pusher;
 
-const authToken = localStorage.getItem('auth.token');
+const authToken = sessionStorage.getItem('auth.token');
 
 window.Echo = new Echo({
   broadcaster: 'reverb',

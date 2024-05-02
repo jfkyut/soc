@@ -5,6 +5,12 @@ import ChatBubble from '@/widgets/chat/ChatBubble.vue';
 import { useRoute } from 'vue-router';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useHttpMessage } from '@/http/message';
+import { useChatStore } from '@/stores/chat';
+import { storeToRefs } from 'pinia';
+
+const { activeChatId } = storeToRefs(useChatStore())
+
+const { addNewMessage } = useChatStore();
 
 const { getChatMessagesRequest } = useHttpMessage();
 
@@ -29,29 +35,38 @@ const setChatContainerHeight = () => {
 }
 
 onMounted( async () => {
+  
+  activeChatId.value = currentChatId.value
+
   await getMessages()
 
   setChatContainerHeight();
 
   Echo.private(`chat.${currentChatId.value}`).listen('.message-sent', (e) => {
     messages.value.push(e.message)
+
+    addNewMessage(e.message)
   })
 })
 
 watch(currentChatId, async () => {
+
+  activeChatId.value = currentChatId.value
+
   await getMessages()
 
   setChatContainerHeight()
 
   Echo.private(`chat.${currentChatId.value}`).listen('.message-sent', (e) => {
     messages.value.push(e.message)
+
+    addNewMessage(e.message)
   })
 })
 
 const messages = ref(null);
 
 watch(messages, () => {
-  console.log('there is a change');
   setChatContainerHeight();
 }, { deep: true })
 

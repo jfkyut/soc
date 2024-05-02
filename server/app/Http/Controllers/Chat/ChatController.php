@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Chat;
 
 use App\Models\Chat;
 use App\Models\Message;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use App\Http\Requests\Chat\NewMessageRequest;
 
 class ChatController extends Controller
@@ -40,6 +40,7 @@ class ChatController extends Controller
         $message->sender()->associate($request->user());
         $message->chat()->associate($chat);
         $message->type()->associate($request->input('type'));
+        $message->timestamp = Date::now()->format('H:i');
         $message->save();
 
         return $message->with('chat')

@@ -36,10 +36,10 @@ const closeOnSmallScreen = () => {
 }
 
 const setToken = async () => {
-  if (!localStorage.getItem('auth.token')) {
+  if (!sessionStorage.getItem('auth.token')) {
     const { data } = await sanctumTokenRequest();
 
-    localStorage.setItem('auth.token', data.token);
+    sessionStorage.setItem('auth.token', data.token);
   }
 }
 

@@ -67,12 +67,17 @@ onMounted( async () => {
       ">
 
       <div class="truncate">
-        {{ 
-          chat.name ||
-          chat.participants.filter((participant) => participant.id !== user.id) 
-                            .map((participant) => participant.name)
-                            .join(', ')
-        }}
+        <strong class="p-2">
+          {{ 
+            chat.name ||
+            chat.participants.filter((participant) => participant.id !== user.id) 
+                              .map((participant) => participant.name)
+                              .join(', ')
+          }}
+        </strong>
+        <p class="p-2">
+          <span>{{ chat.messages[0].user_id === user.id ? 'You: ' : '' }}</span> {{ chat.messages[0].content }}
+        </p>
       </div>
 
     </NavDropdownLink>
