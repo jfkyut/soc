@@ -14,7 +14,16 @@ class MessageController extends Controller
 {
     public function store(MessageRequest $request)
     {
-        $message = new Message(['content' => $request->validated('content')]);
+        $message = null;
+
+        if ($request->validated('type') === 1) {
+            $message = new Message(['content' => $request->validated('content')]);
+        } else {
+            $filePath = $request->file('content')->store('uploads', 'public');
+
+            $message = new Message(['content' => $filePath]);
+        }
+
         $message->sender()->associate($request->user());
         $message->chat()->associate($request->validated('chat_id'));
         $message->type()->associate($request->validated('type'));
