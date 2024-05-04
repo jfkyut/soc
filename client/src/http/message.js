@@ -29,10 +29,21 @@ export const useHttpMessage = () => {
     })
   }
 
+  const sendBlobMessageRequest = (formData) => {
+    return sendApiRequest( async () => {
+      return await axios.post('/api/message', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+    })
+  }
+
   return {
     getAllChatRequest,
     sendNewTextMessageRequest,
     getChatMessagesRequest,
-    sendTextMessageRequest
+    sendTextMessageRequest,
+    sendBlobMessageRequest
   }
 }

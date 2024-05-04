@@ -75,8 +75,11 @@ onMounted( async () => {
                               .join(', ')
           }}
         </strong>
-        <p class="p-2">
+        <p class="p-2" v-if="chat?.messages[0].type_id === 1">
           <span>{{ chat?.messages[0].user_id === user.id ? 'You: ' : '' }}</span> {{ chat?.messages[0].content }}
+        </p>
+        <p class="p-2" v-else>
+          <span>{{ chat?.messages[0].user_id === user.id ? 'You: ' : '' }} Sent a photo.</span>
         </p>
       </div>
 

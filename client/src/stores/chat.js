@@ -7,7 +7,13 @@ export const useChatStore = defineStore('chat', () => {
 
   const activeChatId = ref();
 
-  const updateCurrentChat = (newChat) => {
+  const form = ref({
+    chat_id: null,
+    content: null,
+    type: 1,
+  });
+
+  const updateCurrentChat = (newChat, type) => {
     chats.value = chats.value.filter((chat) => chat.id !== newChat.id);
 
     chats.value.unshift(newChat);
@@ -16,6 +22,7 @@ export const useChatStore = defineStore('chat', () => {
   return { 
     chats,
     activeChatId,
+    form,
     updateCurrentChat
   }
 });
